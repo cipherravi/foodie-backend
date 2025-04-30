@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
   "http://localhost:5173",
   "http://192.168.91.224:5173", // 👈 your local IP for mobile access
-  "https://foodie-backend-so1x.onrender.com", // (optional) for production
+  "https://cipherravi-foodie.vercel.app", // 👈 your production URL
 ];
 
 app.use(
