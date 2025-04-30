@@ -59,11 +59,6 @@ function scheduleNextPing() {
   }, delay);
 }
 
-// Health check endpoint
-app.get("/ping", (req, res) => {
-  res.send("Pong ✅");
-});
-
 module.exports = {
   performPing,
   scheduleNextPing,
