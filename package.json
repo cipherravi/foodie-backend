@@ -1,0 +1,16 @@
+{
+  "name": "foodie-backend",
+  "version": "1.0.0",
+  "description": "it is foodie-backend and server all auth and api realted stuff",
+  "license": "ISC",
+  "author": "cipherravi",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
