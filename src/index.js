@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-
+const { PORT } = require("./config/server-config");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cors());
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://192.168.91.224:5173", // 👈 your local IP for mobile access
@@ -22,13 +22,6 @@ app.use(
     },
   })
 );
-
-// app.use(
-//   cors({
-//     origin: ["http://localhost:5173", "http://192.168.91.224:5173"],
-//   })
-// );
-const port = 3000;
 
 app.get("/api/restaurantdata", async (req, res) => {
   try {
@@ -51,6 +44,6 @@ app.get("/api/restaurantdata", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
