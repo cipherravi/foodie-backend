@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { PORT } = require("./config/server-config");
+const { scheduleNextPing } = require("./utils/ping");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -89,4 +90,5 @@ async function pingServer() {
 pingServer();
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}`);
+  scheduleNextPing();
 });
