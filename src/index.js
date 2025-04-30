@@ -71,7 +71,22 @@ app.get("/api/restaurantmenudata/:restaurantId", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data" });
   }
 });
-
+async function pingServer() {
+  try {
+    const response = await fetch("https://keep-alive-rbb2.onrender.com/ping");
+    setTimeout(() => {
+      pingServer();
+    }, 10000);
+    if (response.ok) {
+      console.log("Server is up and running");
+    } else {
+      console.error("Server is down");
+    }
+  } catch (error) {
+    res.status(500).send({ error: "Failed to make call" });
+  }
+}
+pingServer();
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}`);
 });
