@@ -1,18 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const { PORT } = require("./config/server-config");
+const apiRoutes = require("./routes");
 const { scheduleNextPing } = require("./utils/ping");
+const { allowedOrigins } = require("./config/constant");
+const { StatusCodes } = require("http-status-codes");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "http://192.168.91.224:5173", // 👈 your local IP for mobile access
-  "https://cipherravi-foodie.vercel.app", // 👈 your production URL
-  "https://keep-alive-rbb2.onrender.com",
-];
 
 app.use(
   cors({
@@ -25,66 +20,23 @@ app.use(
     },
   })
 );
+app.use("/api", apiRoutes);
 
-app.get("/api/restaurantdata", async (req, res) => {
-  try {
-    const response = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.59080&lng=85.13480&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
-      {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
-          Accept: "application/json",
-        },
-      }
-    );
-    const data = await response.json();
-    res.json(data); // Send the actual JSON
-  } catch (error) {
-    // Handle errors
-    console.error("Error fetching Swiggy data:", error);
-    res.status(500).json({ error: "Failed to fetch data" });
-  }
-});
-app.get("/api/restaurantmenudata/:restaurantId", async (req, res) => {
-  try {
-    const { restaurantId } = req.params; // Get the restaurant ID from the params parameters
-
-    if (!restaurantId) {
-      return res.status(400).json({ error: "Restaurant ID is required" });
-    }
-    // Fetch the menu data for the specific restaurant
-    const response = await fetch(
-      `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=25.59430&lng=85.13520&restaurantId=${restaurantId}&catalog_qa=undefined&submitAction=ENTER`,
-      {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
-          Accept: "application/json",
-        },
-      }
-    );
-    const data = await response.json();
-    res.json(data); // Send the actual JSON
-  } catch (error) {
-    // Handle errors
-    console.error("Error fetching Swiggy data:", error);
-    res.status(500).json({ error: "Failed to fetch data" });
-  }
-});
 async function pingServer() {
   try {
     const response = await fetch("https://keep-alive-rbb2.onrender.com/ping");
     setTimeout(() => {
       pingServer();
-    }, 10000);
+    }, 600000); // 10 minutes
     if (response.ok) {
       console.log("Server is up and running");
     } else {
       console.error("Server is down");
     }
   } catch (error) {
-    res.status(500).send({ error: "Failed to make call" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send({ error: "Failed to make call" });
   }
 }
 pingServer();
