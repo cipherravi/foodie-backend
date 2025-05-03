@@ -22,7 +22,7 @@ app.use(
 );
 app.use("/api", apiRoutes);
 
-async function pingServer() {
+async function pingServer(req, res) {
   try {
     const response = await fetch("https://keep-alive-rbb2.onrender.com/ping");
     setTimeout(() => {
