@@ -3,7 +3,7 @@ const cors = require("cors");
 const { PORT } = require("./config/server-config");
 const apiRoutes = require("./routes");
 const { scheduleNextPing } = require("./utils/ping");
-const { allowedOrigins } = require("./config/constant");
+const { allowedOrigins } = require("./utils/constant");
 const { StatusCodes } = require("http-status-codes");
 const app = express();
 app.use(express.json());

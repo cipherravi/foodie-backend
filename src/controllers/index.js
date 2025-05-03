@@ -1,7 +1,7 @@
-const restaurant = require("./restaurant-controller");
+const restaurants = require("./restaurants-controller");
 const restaurantMenu = require("./restaurantMenu-controller");
 
 module.exports = {
-  restaurant,
+  restaurants,
   restaurantMenu,
 };

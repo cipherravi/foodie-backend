@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { restaurant, restaurantMenu } = require("../../controllers");
+const { restaurants, restaurantMenu } = require("../../controllers");
 
-router.get("/restaurant", restaurant.data);
-router.get("/restaurant/:restaurantId", restaurantMenu.menuData);
+router.get("/restaurants", restaurants.fetchData);
+router.get("/restaurants/:restaurantId", restaurantMenu.menuData);
+router.post("/restaurants/update", restaurants.fetchNextOffSetData);
 
 module.exports = router;
